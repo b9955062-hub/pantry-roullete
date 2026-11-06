@@ -4,8 +4,110 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>webd project</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+    <div class="curve-container">
+        <div class="curve-bend">
+            <div class="curve-in">
+                <div class="ingredient-search" role="search">
+                    <div class="search-controls">
+                        <svg class="search-icon" aria-hidden="true" viewBox="0 0 24 24">
+                            <circle cx="10.8" cy="10.8" r="6.8"></circle>
+                            <path d="m16 16 5 5"></path>
+                        </svg>
+                        <input
+                            id="ingredient-search"
+                            type="search"
+                            name="ingredient"
+                            aria-label="Enter an ingredient"
+                            placeholder="Enter ingredient for eg: cardamom,onion,oil"
+                            autocomplete="off"
+                        >
+                        <button id="ingredient-search-button" class="search-button" type="button">Search</button>
+                    </div>
+                    <div id="ingredient-chips" class="ingredient-chips" role="group" aria-label="Selected ingredients"></div>
+                    <p id="ingredient-status" class="visually-hidden" aria-live="polite"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const ingredientExamples = [
+            ["cardamom", "onion", "oil"],
+            ["tomato", "garlic", "basil"],
+            ["potato", "cheese", "pepper"]
+        ];
+        const ingredientInput = document.querySelector("#ingredient-search");
+        const searchButton = document.querySelector("#ingredient-search-button");
+        const ingredientSearch = document.querySelector(".ingredient-search");
+        const ingredientChips = document.querySelector("#ingredient-chips");
+        const ingredientStatus = document.querySelector("#ingredient-status");
+        const selectedIngredients = [];
+        let exampleIndex = 0;
+
+        function addIngredient() {
+            const ingredient = ingredientInput.value.trim();
+            if (!ingredient) return;
+
+            if (selectedIngredients.length >= 3) {
+                ingredientStatus.textContent = "You can add up to three ingredients. Remove one to add another.";
+                return;
+            }
+
+            selectedIngredients.push(ingredient);
+            ingredientInput.value = "";
+            renderIngredients();
+            ingredientStatus.textContent = `${ingredient} added. ${selectedIngredients.length} of 3 ingredients selected.`;
+        }
+
+        function clearIngredients() {
+            selectedIngredients.length = 0;
+            renderIngredients();
+            ingredientStatus.textContent = "Ingredients cleared.";
+        }
+
+        function renderIngredients() {
+            ingredientChips.replaceChildren();
+
+            selectedIngredients.forEach((ingredient, index) => {
+                const chip = document.createElement("button");
+                chip.type = "button";
+                chip.className = "ingredient-chip";
+                chip.setAttribute("aria-label", `Remove ${ingredient}`);
+
+                const name = document.createElement("span");
+                name.textContent = ingredient;
+                const removeIcon = document.createElement("span");
+                removeIcon.className = "ingredient-chip-remove";
+                removeIcon.setAttribute("aria-hidden", "true");
+                removeIcon.textContent = "×";
+
+                chip.append(name, removeIcon);
+                chip.addEventListener("click", () => {
+                    selectedIngredients.splice(index, 1);
+                    renderIngredients();
+                    ingredientStatus.textContent = `${ingredient} removed.`;
+                    ingredientInput.focus();
+                });
+                ingredientChips.append(chip);
+            });
+
+            ingredientSearch.classList.toggle("has-ingredients", selectedIngredients.length > 0);
+        }
+
+        ingredientInput.addEventListener("keydown", (event) => {
+            if (event.key !== "Enter") return;
+            event.preventDefault();
+            addIngredient();
+        });
+        searchButton.addEventListener("click", clearIngredients);
+
+        setInterval(() => {
+            exampleIndex = (exampleIndex + 1) % ingredientExamples.length;
+            ingredientInput.placeholder = `Enter ingredient for eg: ${ingredientExamples[exampleIndex].join(",")}`;
+        }, 2000);
+
+    </script>
 </body>
 </html>
