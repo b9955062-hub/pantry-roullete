@@ -8,6 +8,10 @@
 </head>
 <body>
     <div class="curve-container">
+        <div class="hero-visual">
+            <img class="hero-photo is-active" src="image.png" alt="A spread of Indian dishes">
+            <img class="hero-photo" src="download%20(2).png" alt="A selection of burgers and fries" aria-hidden="true">
+        </div>
         <div class="curve-bend">
             <div class="curve-in">
                 <div class="ingredient-search" role="search">
@@ -43,8 +47,18 @@
         const ingredientSearch = document.querySelector(".ingredient-search");
         const ingredientChips = document.querySelector("#ingredient-chips");
         const ingredientStatus = document.querySelector("#ingredient-status");
+        const heroPhotos = [...document.querySelectorAll(".hero-photo")];
         const selectedIngredients = [];
         let exampleIndex = 0;
+        let heroPhotoIndex = 0;
+
+        setInterval(() => {
+            heroPhotos[heroPhotoIndex].classList.remove("is-active");
+            heroPhotos[heroPhotoIndex].setAttribute("aria-hidden", "true");
+            heroPhotoIndex = (heroPhotoIndex + 1) % heroPhotos.length;
+            heroPhotos[heroPhotoIndex].classList.add("is-active");
+            heroPhotos[heroPhotoIndex].removeAttribute("aria-hidden");
+        }, 2000);
 
         function addIngredient() {
             const ingredient = ingredientInput.value.trim();

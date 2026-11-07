@@ -1,3 +1,16 @@
+﻿:root {
+    color-scheme: light;
+    --page-cream: #f7f1e8;
+    --surface-cream: #fffaf2;
+    --surface-tan: #f1e3d0;
+    --fade-brown: #4a2d1d;
+    --warm-brown: #754324;
+    --deep-brown: #4a2d1d;
+    --accent-orange: #c96a32;
+    --accent-orange-hover: #ad5124;
+    --focus-orange: #e58b4c;
+}
+
 * {
     box-sizing: border-box;
 }
@@ -12,7 +25,7 @@ body {
 body {
     min-height: 100vh;
     overflow-x: hidden;
-    background: #080811;
+    background: var(--page-cream);
     font-family: Arial, sans-serif;
 }
 
@@ -22,26 +35,96 @@ body {
     min-height: 100vh;
 }
 
+.hero-visual {
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 90vh;
+    min-height: 220px;
+    overflow: hidden;
+    background: var(--page-cream);
+}
+
+.hero-visual::before,
+.hero-visual::after {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    content: "";
+    pointer-events: none;
+}
+
+.hero-visual::before {
+    background: rgba(40, 24, 16, 0.3);
+}
+
+.hero-visual::after {
+    background:
+        linear-gradient(
+            to right,
+            rgba(74, 45, 29, 0.34) 0%,
+            rgba(74, 45, 29, 0.18) 10%,
+            transparent 28%,
+            transparent 40%,
+            transparent 60%,
+            transparent 76%,
+            rgba(74, 45, 29, 0.18) 90%,
+            rgba(74, 45, 29, 0.34) 100%
+        ),
+        linear-gradient(
+            to bottom,
+            transparent 56%,
+            rgba(74, 45, 29, 0.12) 68%,
+            rgba(74, 45, 29, 0.65) 82%,
+            var(--fade-brown) 90%
+        );
+}
+
+.hero-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0;
+    transition: opacity 600ms ease;
+}
+
+.hero-photo.is-active {
+    opacity: 0.9;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-photo {
+        transition: none;
+    }
+}
+
 .curve-bend {
     position: absolute;
+    z-index: 1;
     bottom: 0;
     right: 0;
     left: 0;
-    height: 80vh;
+    height: 90vh;
     min-height: 220px;
-    background: linear-gradient(to right, #080811, #ee00ff, #5500ff, #00ffee, #5500ff, #ee00ff, #080811);
+    background: linear-gradient(to right, #a94d25, #e58b4c, #f4c27a, #e58b4c, #a94d25);
     border-top-left-radius: 50% 18%;
     border-top-right-radius: 50% 18%;
 }
 
 .curve-in {
     position: absolute;
-    inset: 12% 0 0;
+    z-index: 1;
+    inset: 10px 0 0;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 24px;
-    background: linear-gradient(to right, #090916, #10105b, #090916);
+    background: linear-gradient(to right, #fffaf2, #f1e3d0, #fffaf2);
     border-top-left-radius: 50% 18%;
     border-top-right-radius: 50% 18%;
 }
@@ -50,29 +133,30 @@ body {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    width: min(680px, 100%);
-    min-height: 64px;
-    margin-top: 300px;
-    padding: 8px 10px 8px 22px;
-    background: #fff;
-    border: 2px solid rgba(255, 255, 255, 0.8);
+    width: 75%;
+    max-width: 510px;
+    min-height: 48px;
+    margin-top: 0;
+    padding: 6px 7.5px 6px 16.5px;
+    background: var(--surface-cream);
+    border: 2px solid rgba(255, 255, 255, 0.9);
     border-radius: 50px;
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.28);
+    box-shadow: 0 12px 36px rgba(93, 57, 31, 0.18);
 }
 
 .search-controls {
     display: flex;
     align-items: center;
-    gap: 14px;
-    min-height: 44px;
+    gap: 10.5px;
+    min-height: 33px;
 }
 
 .search-icon {
-    width: 22px;
-    height: 22px;
+    width: 16.5px;
+    height: 16.5px;
     flex: 0 0 auto;
     fill: none;
-    stroke: #5b5b6b;
+    stroke: #8a705e;
     stroke-linecap: round;
     stroke-width: 2;
 }
@@ -81,35 +165,35 @@ body {
     flex: 1;
     width: 0;
     min-width: 0;
-    padding: 10px 0;
-    color: #171722;
+    padding: 7.5px 0;
+    color: var(--deep-brown);
     background: transparent;
     border: 0;
     outline: 0;
     font: inherit;
-    font-size: 16px;
+    font-size: 12px;
 }
 
 .search-button {
     flex: 0 0 auto;
-    min-height: 40px;
-    padding: 0 18px;
-    color: #fff;
-    background: #7545d6;
+    min-height: 30px;
+    padding: 0 13.5px;
+    color: #fffaf2;
+    background: var(--accent-orange);
     border: 0;
     border-radius: 999px;
     font: inherit;
-    font-size: 14px;
+    font-size: 10.5px;
     font-weight: 600;
     cursor: pointer;
 }
 
 .search-button:hover {
-    background: #6334c4;
+    background: var(--accent-orange-hover);
 }
 
 .search-button:focus-visible {
-    outline: 2px solid #7d4be8;
+    outline: 2px solid var(--focus-orange);
     outline-offset: 2px;
 }
 
@@ -134,9 +218,9 @@ body {
     min-height: 24px;
     padding: 2px 8px;
     overflow-wrap: anywhere;
-    color: #28243a;
-    background: #eee8ff;
-    border: 1px solid #d5c7ff;
+    color: var(--deep-brown);
+    background: var(--surface-tan);
+    border: 1px solid #e1c8a9;
     border-radius: 999px;
     font: inherit;
     font-size: 13px;
@@ -144,13 +228,13 @@ body {
 }
 
 .ingredient-chip-remove {
-    color: #65558a;
+    color: var(--warm-brown);
     font-size: 17px;
     line-height: 1;
 }
 
 .ingredient-chip:focus-visible {
-    outline: 2px solid #7d4be8;
+    outline: 2px solid var(--focus-orange);
     outline-offset: 2px;
 }
 
@@ -167,13 +251,13 @@ body {
 }
 
 .ingredient-search input::placeholder {
-    color: #737382;
+    color: #8a7666;
     opacity: 1;
 }
 
 .ingredient-search:focus-within {
-    border-color: #b56cff;
-    box-shadow: 0 0 0 4px rgba(181, 108, 255, 0.2), 0 12px 36px rgba(0, 0, 0, 0.28);
+    border-color: var(--focus-orange);
+    box-shadow: 0 0 0 4px rgba(229, 139, 76, 0.2), 0 12px 36px rgba(93, 57, 31, 0.18);
 }
 
 @media (max-width: 480px) {
@@ -182,13 +266,13 @@ body {
     }
 
     .ingredient-search {
-        min-height: 58px;
-        padding-left: 16px;
+        min-height: 43.5px;
+        padding-left: 12px;
     }
 
     .search-controls {
-        gap: 10px;
-        min-height: 38px;
+        gap: 7.5px;
+        min-height: 28.5px;
     }
 
     .ingredient-chips {
@@ -196,13 +280,13 @@ body {
     }
 
     .ingredient-search input {
-        font-size: 14px;
+        font-size: 10.5px;
     }
 
     .search-button {
-        min-height: 36px;
-        padding: 0 12px;
-        font-size: 13px;
+        min-height: 27px;
+        padding: 0 9px;
+        font-size: 9.75px;
     }
 
 }
